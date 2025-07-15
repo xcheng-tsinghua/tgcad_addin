@@ -1,12 +1,16 @@
+#pragma once
+
 #include "stdafx.h"
 #include "CmdDevice.h"
 #include "resource.h"
+
 
 // This is a trivial example of a command that connects up to the mouse
 // to highlight certain graphics. This object inherits all the member
 // functions of CmdDevice, choosing to only override Activate where it
 // sets up the locate filter. The command also exercies the ISolidEdgeRibbonBar
 // API.
+
 class MouseLocate : public CmdDevice
 {
 public:

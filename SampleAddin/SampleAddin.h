@@ -1,6 +1,3 @@
-// SEOEMAddIn.h : main header file for the SEOEMAddIn DLL
-//
-
 #pragma once
 
 #ifndef __AFXWIN_H__
@@ -9,6 +6,7 @@
 
 #include "resource.h"		// main symbols
 #include "SampleAddin_i.h"
+
 
 class SEAddin;
 

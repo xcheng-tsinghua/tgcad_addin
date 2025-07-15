@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "AddinMenu.h"
-#include "../../SampleAddin.h"
-#include "../../SEAddIn.h"
-//#include "System/Nex3DHelper/Nex3DHelper.h"
-//#include "System/NDSFileHelper.h"
+#include "SampleAddin.h"
+#include "SEAddIn.h"
 #include <tlhelp32.h>
 #include "CmdUser.h"
 

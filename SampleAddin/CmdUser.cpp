@@ -6,16 +6,14 @@
 #include "resource.h"
 #include "CmdUser.h"
 #include "util.h"
-//#include "System/Nex3DHelper/Nex3DHelper.h"
 #include "AddinMenu.h"
 #include <iostream>
 #include <fstream>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
 #endif
+
 
 CmdUser::CmdUser() : CmdDevice()
 {

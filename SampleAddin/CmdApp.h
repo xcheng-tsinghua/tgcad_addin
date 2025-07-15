@@ -1,7 +1,5 @@
-// Commands.h : header file
-//
-
 #pragma once
+
 #include "stdafx.h"
 #include "SampleAddin_i.h"
 

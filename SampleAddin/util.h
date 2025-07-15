@@ -1,5 +1,4 @@
-#ifndef _UTIL_H
-#define _UTIL_H
+#pragma once
 
 using namespace SolidEdgeFramework;
 using namespace SolidEdgePart;
@@ -39,4 +38,3 @@ HRESULT GetAddinStorage( LPDISPATCH pDocDispatch,
 						);
 
 
-#endif

@@ -1,4 +1,5 @@
-//#include "stdafx.h"
+#pragma once
+
 #include "CmdApp.h"
 #include "resource.h"
 #include "CmdDevice.h"

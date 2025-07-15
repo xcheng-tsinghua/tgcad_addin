@@ -1,11 +1,6 @@
-// Options.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "Options.h"
 
-
-// Options dialog
 
 IMPLEMENT_DYNAMIC(Options, CDialog)
 

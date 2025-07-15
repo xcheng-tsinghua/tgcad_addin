@@ -1,9 +1,10 @@
-
 #pragma once
 
 #include "stdafx.h"
 #include "SampleAddin_i.h"
 #include "CmdApp.h"
+
+
 // This add-in will manipulate the edge bar. I have a dialog I will
 // add to the edge bar. The document takes care of the details.
 

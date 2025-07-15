@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "afxwin.h"
 
+
 // This add-in has one command that exercises the command bar API and this 
 // is the options dialog that is shown when the user clicks the options
 // button created when the command adds the standard solid edge header to the 

@@ -1,34 +1,30 @@
-This is an ATL based ActiveX Control project. It contains an object which
-implements the ISolidEdgeAddIn interface which is the primary interface
-Solid Edge uses when connecting to an add-in. The component is fully 
-self-registering and a post-build step has been added to the project
-settings that registers your ActiveX control.
+# 天工 CAD 插件代码
 
-Features included by this object:
+天工CAD下载链接：
 
-You add-in has a command bar.
+https://www.newdimchina.com/product/94.html
 
-Microsoft's Component Category Manager interfaces are used to register
-the control as implementing ISolidEdgeAddin and by Nex3D to detect
-when an add-in is so registered. During registration a registry value
-is set to indicate that the control should be auto-loaded when Solid Edge 
-starts up. See RegSeAddin.cpp for the registration details or to add
-additional registry entries, or modify the wizard generated settings.
 
-Other than registering what is normally needed for COM objects and
-indicating that the control implements ISolidEdgeAddIn, there are no 
-installation dependencies that Nex3D imposes on an add-in.
+## 加载插件
 
-///////////////////////////////////////////////////////////////////////
-Build Notes:
+从 $(SolutionDir)bin/Debug/ 文件夹找到 regsvrUn.bat 和 regsvr.bat 文件
 
-// Note: The Wizard took his best shot at building a path to your
-//       Solid Edge Sdk include file directory. If after adding
-//       the above project settings, the project fails to build
-//       due to missing include files, add the necessary include
-//       paths to the c++ (preprocessor) project settings under
-//       the addtional include file paths field.
-//
-// Note: Paths to the Solid Edge SDK include files and typelibs should
-//       be defined. Imported typelibs should be resolved by your
-//       system path.
+依次右键管理员运行 regsvrUn.bat 和 regsvr.bat 即可
+
+
+## 代码配置
+
+在 SampleAddin 的属性页 → 调试 → 命令 行输入 TianGong.exe 的路径，即配置完成。
+
+
+## 代码功能
+
+AddinMenu.h：
+
+
+
+
+
+
+
+

@@ -1,7 +1,4 @@
-// SEAddin.h : Declaration of the CSEAddin
-
-#ifndef __SEADDIN_H_
-#define __SEADDIN_H_
+#pragma once
 
 #include "resource.h"       // main symbols
 #include "CmdApp.h"
@@ -85,4 +82,4 @@ protected:
 
 };
 
-#endif //__SEADDIN_H_
+

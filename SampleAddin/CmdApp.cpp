@@ -1,5 +1,3 @@
-// Commands.cpp : implementation file
-//
 #include "CmdApp.h"
 #include "stdafx.h"
 #include "resource.h"
@@ -10,12 +8,10 @@
 #include "Document.h"
 #include "SampleAddin_i.h"
 #include "SEAddin.h"
-#include "./SDK/include/secatids.h"
+#include "SDK/include/secatids.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,11 @@
 #pragma once
 
-
 #include <vector>
 #include <string>
-#include "../../SampleAddin.h"
+#include "SampleAddin.h"
 
-#include "../../SEAddin.h"
-#include "../../SDK/include/secatids.h"
+#include "SEAddin.h"
+#include "SDK/include/secatids.h"
 #include "Resource.h"
 
 

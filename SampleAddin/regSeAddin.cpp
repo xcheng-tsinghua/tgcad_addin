@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "comcat.h"
 #include "string.h"
-#include "./SDK/include/secatids.h"
+#include "SDK/include/secatids.h"
 
 // Notes:
 //

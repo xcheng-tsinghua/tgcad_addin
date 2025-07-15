@@ -1,9 +1,8 @@
-// SEAddin.cpp : Implementation of ISEAddin
 #include "stdafx.h"
 #include "SampleAddin.h"
 #include "AddinMenu.h"
 #include "SEAddin.h"
-#include "./SDK/include/secatids.h"
+#include "SDK/include/secatids.h"
 #include "util.h"
 
 

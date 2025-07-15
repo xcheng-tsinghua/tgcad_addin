@@ -16,11 +16,11 @@
 #include "stdafx.h"
 #include <initguid.h>
 #include "SampleAddin.h"
-#include "./SDK/include/secatids.h"
+#include "SDK/include/secatids.h"
 
 #include "SEAddin.h"
 #include "winnt.h"
-#include "./SDK/include/addins_i.c"
+#include "SDK/include/addins_i.c"
 
 CComModule _Module;
 
