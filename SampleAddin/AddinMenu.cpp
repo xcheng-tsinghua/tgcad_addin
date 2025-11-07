@@ -523,7 +523,10 @@ bool AddinMenu::Test3()
 
 bool AddinMenu::Test4()
 {
-	MessageBox(NULL, TEXT("°´Å¥4 !"), TEXT("´íÎó£¡"), MB_OK | MB_YESNO);
+	CMyViewOverlayObj* tmp_gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
+	tmp_gl_display->Clear();
+
+	//MessageBox(NULL, TEXT("°´Å¥4 !"), TEXT("´íÎó£¡"), MB_OK | MB_YESNO);
 	return true;
 
 }
@@ -1633,7 +1636,7 @@ void AddinMenu::CreateHoles(SolidEdgePart::PartDocumentPtr partDocument)
 
 bool AddinMenu::ActiveMouse()
 {
-	MessageBox(NULL, TEXT("¼¤»îÊó±ê !"), TEXT("´íÎó£¡"), MB_OK | MB_YESNO);
+	MessageBox(NULL, TEXT("ÊÖ»æ¹¤¾ß¼¤»î !"), TEXT("´íÎó£¡"), MB_OK | MB_YESNO);
 
 	// ¼¤»î¹¤¾ß
 	SEAddin* pAddin = CSampleAddinApp::GetSEApp()->GetSEAddin();

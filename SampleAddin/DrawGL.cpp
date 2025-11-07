@@ -322,6 +322,14 @@ void DrawGL::DrawOpenGlBoxes(LPGL pGL, float fSize)
 
 void DrawGL::DrawStroke(vector<Point2D> stroke_pnt, CDC* dc)
 {
+
+	// 创建一个红色、线宽为 3 的实线画笔
+	CPen pen(PS_SOLID, 5, RGB(0, 0, 0));
+
+	// 选入到 DC 中，并保存旧画笔
+	CPen* pOldPen = dc->SelectObject(&pen);
+
+
 	int n_points = stroke_pnt.size();
 	if (n_points > 2)
 	{

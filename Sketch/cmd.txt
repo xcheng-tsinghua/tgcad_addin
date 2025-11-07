@@ -1,0 +1,27 @@
+
+# 查看当前状态
+git status
+
+# 将修改添加到暂存区
+git add .
+
+# 将更改信息暂存到本地
+git commit -m "change"
+
+# 推送到远程仓库
+git push origin main
+
+
+git status && git add . && git commit -m "change" && git push
+
+
+# 对于目录
+# 需要将 ${directory} 更换为已被Git同步但是需要解除同步的文件夹
+git rm --cached -r ${directory}
+
+# 对于文件
+# 需要将 ${file} 更换为已被Git同步但是需要解除同步的文件
+git rm --cached ${file}
+
+
+
