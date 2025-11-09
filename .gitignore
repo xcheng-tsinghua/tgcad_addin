@@ -2,4 +2,4 @@
 bin/
 SampleAddin/x64/
 Sketch/x64/
-libtorch/
+External/

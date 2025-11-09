@@ -132,6 +132,7 @@
 #define IDS_CMD_BN3                     3059
 #define IDS_STRING3060                  3060
 #define IDS_CMD_BN4                     3060
+#define IDS_CMD_BN5                     3061
 
 // Next default values for new objects
 // 

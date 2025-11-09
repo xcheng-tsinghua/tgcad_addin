@@ -403,10 +403,11 @@ END
 STRINGTABLE
 BEGIN
     IDS_CMD_SKETCH_DEMO     "草图SDK示例\n草图SDK示例\n草图SDK示例"
-    IDS_CMD_BN1             "CMD1\nCMD1\nCMD1"
-    IDS_CMD_BN2             "CMD2\nCMD2\nCMD2"
-    IDS_CMD_BN3             "CMD3\nCMD3\nCMD3"
-    IDS_CMD_BN4             "CMD4\nCMD4\nCMD4"
+    IDS_CMD_BN1             "打开零件\n打开零件\n打开零件"
+    IDS_CMD_BN2             "建模命令\n建模命令\n建模命令"
+    IDS_CMD_BN3             "草图绘制\n草图绘制\n草图绘制"
+    IDS_CMD_BN4             "清空草图\n清空草图\n清空草图"
+    IDS_CMD_BN5             "草图引导\n草图引导\n草图引导"
 END
 
 STRINGTABLE

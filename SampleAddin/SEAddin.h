@@ -16,8 +16,7 @@ using namespace SolidEdgeFramework;
 // so will avoid any issue with clashing GUIDS on the same machine. Use
 // the guidgen tool in the Visual Studio Tools menu to generate a guid. Simply
 // changing some value below by hand will not guarantee uniqueness!!
-DEFINE_GUID(CLSID_SEAddIn, 
-0xA3DC5267,0xDD8B,0x4A7C, 0xB4,0xF4,0xE8,0x5E,0x39,0x05,0x66,0x80);
+DEFINE_GUID(CLSID_SEAddIn, 0xA3DC5267,0xDD8B,0x4A7C, 0xB4,0xF4,0xE8,0x5E,0x39,0x05,0x66,0x80);
 
 // Define the class that starts it all. This is the object that implements the
 // ISolidEdgeAddIn interface. Edge will detect this COM class using the Microsoft
@@ -65,13 +64,11 @@ public:
 
 public:
 	ApplicationPtr GetApplication();
-	CCommandsObj* GetCommands() { return m_pCommands; }
+	CCommandsObj* GetCommands();
 	CMyViewOverlayObj* GetMyViewOverlayObj();
 
 private:
 	HRESULT CreateRibbon(GUID environmentGuid, EnvironmentPtr pEnvironment, VARIANT_BOOL bFirstTime);
-
-
 
 private:
 	ApplicationPtr m_pApplication;

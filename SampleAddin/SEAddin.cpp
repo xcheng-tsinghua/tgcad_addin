@@ -884,6 +884,11 @@ ApplicationPtr SEAddin::GetApplication()
 	return m_pApplication;
 }
 
+CCommandsObj* SEAddin::GetCommands()
+{
+	return m_pCommands;
+}
+
 CMyViewOverlayObj* SEAddin::GetMyViewOverlayObj()
 {
 	return m_pMyViewOverlay;

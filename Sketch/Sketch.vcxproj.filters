@@ -18,13 +18,34 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Point2D.cpp">
+    <ClCompile Include="SKPnt_2d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SketchRNN.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SKUtils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SKPnt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Point2D.h">
+    <ClInclude Include="SKPnt_2d.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SketchRNN.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SKUtils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SKPnt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="cmd.txt" />
   </ItemGroup>
 </Project>

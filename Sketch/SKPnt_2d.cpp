@@ -1,38 +1,38 @@
-#include "Point2D.h"
+#include "SKPnt_2d.h"
 #include <cmath>
 
 #ifndef M_PI
 #define M_PI 3.141592653589793
 #endif
 
-Point2D::Point2D()
+SKPnt_2d::SKPnt_2d()
 {
 	m_x = 0;
 	m_y = 0;
 }
 
-Point2D::Point2D(const double& px, const double& py)
+SKPnt_2d::SKPnt_2d(const double& px, const double& py)
 {
 	m_x = px;
 	m_y = py;
 }
 
-Point2D::Point2D(Point2D start, Point2D end)
+SKPnt_2d::SKPnt_2d(SKPnt_2d start, SKPnt_2d end)
 {
 	m_x = end.X() - start.X();
 	m_y = end.Y() - start.Y();
 }
 
-Point2D::~Point2D()
+SKPnt_2d::~SKPnt_2d()
 {
 }
 
-double Point2D::Magnitude() const
+double SKPnt_2d::Magnitude() const
 {
 	return sqrt(m_x * m_x + m_y * m_y);
 }
 
-double Point2D::Distance(Point2D other) const
+double SKPnt_2d::Distance(SKPnt_2d other) const
 {
 	double dx = m_x - other.X();
 	double dy = m_y - other.Y();
@@ -40,7 +40,7 @@ double Point2D::Distance(Point2D other) const
 	return sqrt(dx * dx + dy * dy);
 }
 
-void Point2D::Normalize_()
+void SKPnt_2d::Normalize_()
 {
 	double mag = this->Magnitude();
 	m_x /= mag;
@@ -48,40 +48,40 @@ void Point2D::Normalize_()
 
 }
 
-Point2D Point2D::Normalize() const
+SKPnt_2d SKPnt_2d::Normalize() const
 {
 	double mag = this->Magnitude();
-	return Point2D(m_x / mag, m_y / mag);
+	return SKPnt_2d(m_x / mag, m_y / mag);
 }
 
-double Point2D::X() const
+double SKPnt_2d::X() const
 {
 	return m_x;
 }
 
-double Point2D::Y() const
+double SKPnt_2d::Y() const
 {
 	return m_y;
 }
 
-void Point2D::SetX(const double& px)
+void SKPnt_2d::SetX(const double& px)
 {
 	m_x = px;
 }
 
-void Point2D::SetY(const double& py)
+void SKPnt_2d::SetY(const double& py)
 {
 	m_y = py;
 }
 
-void Point2D::SetXY(const double& px, const double& py)
+void SKPnt_2d::SetXY(const double& px, const double& py)
 {
 	m_x = px;
 	m_y = py;
 
 }
 
-double Point2D::Angle(Point2D other) const
+double SKPnt_2d::Angle(SKPnt_2d other) const
 {
 	double product_num = (*this) * other;
 	product_num = product_num / (this->Magnitude() * other.Magnitude());
@@ -90,7 +90,7 @@ double Point2D::Angle(Point2D other) const
 
 }
 
-double Point2D::AcuteAngle(Point2D other) const
+double SKPnt_2d::AcuteAngle(SKPnt_2d other) const
 {
 	double ang = this->Angle(other);
 
@@ -103,7 +103,7 @@ double Point2D::AcuteAngle(Point2D other) const
 
 }
 
-double Point2D::RotAngle() const
+double SKPnt_2d::RotAngle() const
 {
 	if (this->Magnitude() < 1e-6)
 	{
@@ -112,7 +112,7 @@ double Point2D::RotAngle() const
 	}
 
 	// 相当于计算(1, 0)到 this 之间的夹角
-	double theta = this->Angle(Point2D(1, 0));
+	double theta = this->Angle(SKPnt_2d(1, 0));
 
 	if (m_y >= 0)
 	{
@@ -125,7 +125,7 @@ double Point2D::RotAngle() const
 
 }
 
-bool Point2D::IsParallelTo(Point2D other, const double& angular_tol) const
+bool SKPnt_2d::IsParallelTo(SKPnt_2d other, const double& angular_tol) const
 {
 	double ang = this->AcuteAngle(other);
 
@@ -140,34 +140,34 @@ bool Point2D::IsParallelTo(Point2D other, const double& angular_tol) const
 
 }
 
-double Point2D::Cross(Point2D other) const
+double SKPnt_2d::Cross(SKPnt_2d other) const
 {
 	double crossed_z = m_x * other.Y() - m_y * other.X();
 	return crossed_z;
 
 }
 
-double Point2D::operator*(Point2D other) const
+double SKPnt_2d::operator*(SKPnt_2d other) const
 {
 	return m_x * other.X() + m_y * other.Y();
 }
 
-Point2D Point2D::operator+(Point2D other) const
+SKPnt_2d SKPnt_2d::operator+(SKPnt_2d other) const
 {
-	return Point2D(m_x + other.X(), m_y + other.Y());
+	return SKPnt_2d(m_x + other.X(), m_y + other.Y());
 }
 
-Point2D Point2D::operator-(Point2D other) const
+SKPnt_2d SKPnt_2d::operator-(SKPnt_2d other) const
 {
-	return Point2D(m_x - other.X(), m_y - other.Y());
+	return SKPnt_2d(m_x - other.X(), m_y - other.Y());
 }
 
-Point2D operator*(double mag, Point2D me)
+SKPnt_2d operator*(double mag, SKPnt_2d me)
 {
-	return Point2D(mag * me.X(), mag * me.Y());
+	return SKPnt_2d(mag * me.X(), mag * me.Y());
 }
 
-PROCESS_API Point2D operator-(Point2D me)
+PROCESS_API SKPnt_2d operator-(SKPnt_2d me)
 {
 	return -1.0 * me;
 }

@@ -6,7 +6,7 @@
 #include "SampleAddin_i.h"
 #include "SDK/include/igl.h"
 #include <vector>
-#include "../Sketch/Point2D.h"
+#include "../Sketch/SKPnt_2d.h"
 #include <string>
 
 
@@ -74,8 +74,8 @@ public:
 	HRESULT UnadviseFromEvents();
 
 	void Append(double x, double y);
-	vector<vector<Point2D>> GetAllPoints();
-	vector<Point2D> GetCurrentPoints();
+	vector<vector<SKPnt_2d>> GetAllPoints();
+	vector<SKPnt_2d> GetCurrentPoints();
 	void DrawEnd();
 
 	// 导出草图中所有的点
@@ -83,7 +83,16 @@ public:
 	// pen_down：落笔，下一个点属于当前笔划
 	void ExportSketchPoints(string save_path, int pen_up = 0, int pen_down = 1);
 
+	// 导出草图中所有的点到json支持的格式，用于python推理
+	// pen_up：抬笔，下一个点不属于当前笔划
+	// pen_down：落笔，下一个点属于当前笔划
+	vector<vector<double>> ExportSketchJson(int pen_up = 1, int pen_down = 0);
+
+	void SetInferedStroke(vector<vector<double>> infered_res, int pen_up = 1, int pen_down = 0, int max_len = 15, double mag_rate = 10.0);
+	vector<vector<SKPnt_2d>> GetInferedStroke();
+
 	void Clear();
+	ViewPtr GetView();
 
 private:
 	ViewPtr m_pView;
@@ -95,10 +104,13 @@ private:
 	void DrawOpenGlBoxes(LPGL pGL);
 	void DrawOpenGlBoxes(LPGL pGL, float fSize);
 
-	vector<vector<Point2D>> m_line_points_all;  // 全部笔划
-	vector<Point2D> m_line_points_current;  // 当前绘制的笔划
+	vector<vector<SKPnt_2d>> m_line_points_all;  // 全部笔划
+	vector<SKPnt_2d> m_line_points_current;  // 当前绘制的笔划
+	vector<vector<SKPnt_2d>> m_line_points_infered;  // 模型预测出的笔划
 
-	static void DrawStroke(vector<Point2D> stroke_pnt, CDC* dc);
+	static void DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width=5, COLORREF color= RGB(255, 0, 0));
+
+	SKPnt_2d m_last_pnt = SKPnt_2d(0, 0);
 
 	/////////////////////////////////////////////////////////
 protected:

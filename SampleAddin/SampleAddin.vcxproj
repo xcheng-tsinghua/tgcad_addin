@@ -83,7 +83,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">c:\program files\Solid Edge\program;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">c:\program files\Solid Edge\program;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Sketch;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -298,6 +298,7 @@ regsvr32 /s /c "$(TargetPath)"
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -376,6 +377,7 @@ regsvr32 /s /c "$(TargetPath)"
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="SEUtils.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -402,6 +404,7 @@ regsvr32 /s /c "$(TargetPath)"
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\UIRes.zip" />
     <None Include="SampleAddin.def" />
     <None Include="SampleAddin.rgs" />
     <None Include="res\bin1.bin" />
@@ -443,6 +446,7 @@ regsvr32 /s /c "$(TargetPath)"
     <ClInclude Include="SampleAddin.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SEAddin.h" />
+    <ClInclude Include="SEUtils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
@@ -450,7 +454,9 @@ regsvr32 /s /c "$(TargetPath)"
     <Image Include="res\DataBaseCheck.png" />
     <Image Include="res\folder_l.bmp" />
     <Image Include="res\folder_s.bmp" />
+    <Image Include="res\ModelingCheck.png" />
     <Image Include="res\ModelingCheckBar.bmp" />
+    <Image Include="res\PackageModelingCheck.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

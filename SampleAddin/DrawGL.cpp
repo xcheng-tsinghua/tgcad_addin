@@ -5,6 +5,8 @@
 #include "SEAddin.h"
 #include <fstream>
 
+#include "SKUtils.h"
+
 
 #pragma region DrawGL
 
@@ -320,11 +322,11 @@ void DrawGL::DrawOpenGlBoxes(LPGL pGL, float fSize)
 	pGL->glEnd();
 }
 
-void DrawGL::DrawStroke(vector<Point2D> stroke_pnt, CDC* dc)
+void DrawGL::DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width, COLORREF color)
 {
 
 	// 创建一个红色、线宽为 3 的实线画笔
-	CPen pen(PS_SOLID, 5, RGB(0, 0, 0));
+	CPen pen(PS_SOLID, line_width, color);
 
 	// 选入到 DC 中，并保存旧画笔
 	CPen* pOldPen = dc->SelectObject(&pen);
@@ -335,8 +337,8 @@ void DrawGL::DrawStroke(vector<Point2D> stroke_pnt, CDC* dc)
 	{
 		for (int i = 1; i < n_points; i++)
 		{
-			Point2D sec_start = stroke_pnt[i - 1];
-			Point2D sec_end = stroke_pnt[i];
+			SKPnt_2d sec_start = stroke_pnt[i - 1];
+			SKPnt_2d sec_end = stroke_pnt[i];
 
 			dc->MoveTo(sec_start.X(), sec_start.Y());
 			dc->LineTo(sec_end.X(), sec_end.Y());
@@ -381,18 +383,23 @@ void DrawGL::Append(double x, double y)
 
 }
 
-vector<vector<Point2D>> DrawGL::GetAllPoints()
+vector<vector<SKPnt_2d>> DrawGL::GetAllPoints()
 {
 	return m_line_points_all;
 }
 
-vector<Point2D> DrawGL::GetCurrentPoints()
+vector<SKPnt_2d> DrawGL::GetCurrentPoints()
 {
 	return m_line_points_current;
 }
 
 void DrawGL::DrawEnd()
 {
+	if (m_line_points_current.size() != 0)
+	{
+		m_last_pnt = m_line_points_current.back();
+	}
+
 	m_line_points_all.push_back(m_line_points_current);
 	m_line_points_current.clear();
 }
@@ -405,7 +412,7 @@ void DrawGL::ExportSketchPoints(string save_path, int pen_up, int pen_down)
 	{
 		for (int i = 0; i < c_pnt_list.size(); i++)
 		{
-			Point2D c_pnt = c_pnt_list[i];
+			SKPnt_2d c_pnt = c_pnt_list[i];
 
 			if (i == c_pnt_list.size() - 1)
 			{
@@ -424,11 +431,92 @@ void DrawGL::ExportSketchPoints(string save_path, int pen_up, int pen_down)
 
 }
 
+vector<vector<double>> DrawGL::ExportSketchJson(int pen_up, int pen_down)
+{
+	vector<vector<double>> sketch_json;
+
+	for (auto c_stroke : m_line_points_all)
+	{
+		int c_stroke_pnts = c_stroke.size();
+
+		for (int i = 0; i < c_stroke_pnts; i++)
+		{
+			vector<double> c_pnt = { c_stroke[i].X(), c_stroke[i].Y() };
+
+			if (i == (c_stroke_pnts - 1))
+			{
+				c_pnt.push_back(pen_up);
+			}
+			else
+			{
+				c_pnt.push_back(pen_down);
+			}
+
+			sketch_json.push_back(c_pnt);
+
+		}
+
+	}
+
+	return sketch_json;
+}
+
+void DrawGL::SetInferedStroke(vector<vector<double>> infered_res, int pen_up, int pen_down, int max_len, double mag_rate)
+{
+	//double mag_rate = 10.0;
+
+	m_line_points_infered.clear();
+
+	bool is_next_new_stroke = false;
+	vector<SKPnt_2d> c_stroke;
+
+	if (infered_res.size() > max_len) infered_res.resize(max_len);
+
+	for (auto c_res :infered_res)
+	{
+		if (abs(c_res[2] - pen_up) <= M_ZERO)
+		{
+			is_next_new_stroke = true;
+		}
+		else 
+		{
+			is_next_new_stroke = false;
+		}
+
+		c_stroke.push_back(m_last_pnt + mag_rate * SKPnt_2d(c_res[0], c_res[1]));
+		// 下一个点是另一个笔划，加入当前点后开启新笔划
+		if (is_next_new_stroke)
+		{
+			m_line_points_infered.push_back(c_stroke);
+			c_stroke.clear();
+
+		}
+
+		bool is_last = (&c_res == &infered_res.back());
+		if (is_last && !is_next_new_stroke)
+		{
+			m_line_points_infered.push_back(c_stroke);
+		}
+
+	}
+
+}
+
+vector<vector<SKPnt_2d>> DrawGL::GetInferedStroke()
+{
+	return m_line_points_infered;
+}
+
 void DrawGL::Clear()
 {
 	m_line_points_all.clear();
 	m_line_points_current.clear();
 
+}
+
+ViewPtr DrawGL::GetView()
+{
+	return m_pView;
 }
 
 #pragma endregion
@@ -482,8 +570,8 @@ HRESULT DrawGL::XhDCDisplayEvents::raw_EndhDCMainDisplay(long hDC, double* Model
 		CDC* pDC = CDC::FromHandle((HDC)hDC);
 
 		CMyViewOverlayObj* gl_draw = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
-		vector<Point2D> c_stroke = gl_draw->GetCurrentPoints();
-		vector<vector<Point2D>> all_stroke = gl_draw->GetAllPoints();
+		vector<SKPnt_2d> c_stroke = gl_draw->GetCurrentPoints();
+		vector<vector<SKPnt_2d>> all_stroke = gl_draw->GetAllPoints();
 
 		DrawGL::DrawStroke(c_stroke, pDC);
 
@@ -491,6 +579,13 @@ HRESULT DrawGL::XhDCDisplayEvents::raw_EndhDCMainDisplay(long hDC, double* Model
 		{
 			DrawGL::DrawStroke(c_hstk, pDC);
 		}
+
+		vector<vector<SKPnt_2d>> infered_stroke = gl_draw->GetInferedStroke();
+		for (auto c_hstk : infered_stroke)
+		{
+			DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
+		}
+
 
 	}
 	return S_OK;

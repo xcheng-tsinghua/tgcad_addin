@@ -4,6 +4,9 @@
 #include "SEAddIn.h"
 #include <tlhelp32.h>
 #include "CmdUser.h"
+#include "SEUtils.h"
+
+#include "SketchRNN.h"
 
 
 #ifdef _DEBUG
@@ -523,8 +526,8 @@ bool AddinMenu::Test3()
 
 bool AddinMenu::Test4()
 {
-	CMyViewOverlayObj* tmp_gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
-	tmp_gl_display->Clear();
+	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
+	gl_display->Clear();
 
 	//MessageBox(NULL, TEXT("°´Å¥4 !"), TEXT("´íÎó£¡"), MB_OK | MB_YESNO);
 	return true;
@@ -540,6 +543,15 @@ bool AddinMenu::Test5()
 	//}
 
 	//gDataShare->Test5();
+
+	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
+
+	vector<vector<double>> input_tensor = gl_display->ExportSketchJson();
+
+	vector<vector<double>> infered_tensor = SketchRNN::Infer(input_tensor);
+
+	gl_display->SetInferedStroke(infered_tensor);
+	gl_display->GetView()->Update();
 
 	return true;
 }
