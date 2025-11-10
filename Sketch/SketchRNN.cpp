@@ -44,7 +44,8 @@ vector<vector<double>> SketchRNN::Infer(vector<vector<double>> input_tensor)
     json input_json;
     input_json["input"] = input_tensor;
 
-    string url = "http://localhost:5000/infer";
+    //string url = "http://localhost:5000/infer";
+    string url = "http://127.0.0.1:8888/infer";
     string input_data_string = input_json.dump();
     string response;
 
