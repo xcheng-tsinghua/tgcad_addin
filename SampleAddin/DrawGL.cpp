@@ -587,9 +587,9 @@ HRESULT DrawGL::XhDCDisplayEvents::raw_EndhDCMainDisplay(long hDC, double* Model
 			DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
 		}
 
-
 	}
 	return S_OK;
+
 }
 
 #pragma endregion
