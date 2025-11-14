@@ -496,6 +496,7 @@ void DrawGL::SetInferedStroke(vector<vector<double>> infered_res, int pen_up, in
 		if (is_last && !is_next_new_stroke)
 		{
 			m_line_points_infered.push_back(c_stroke);
+			c_stroke.clear();
 		}
 
 	}

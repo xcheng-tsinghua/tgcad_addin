@@ -26,7 +26,7 @@ SketchRNN::~SketchRNN()
 
 vector<vector<double>> SketchRNN::Infer(vector<vector<double>> input_tensor)
 {
-    //SKUtils::CreateConsole();
+    SKUtils::CreateConsole();
     vector<vector<double>> infered_result;
 
     CURL* curl = curl_easy_init();

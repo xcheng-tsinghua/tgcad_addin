@@ -88,7 +88,7 @@ public:
 	// pen_down：落笔，下一个点属于当前笔划
 	vector<vector<double>> ExportSketchJson(int pen_up = 1, int pen_down = 0);
 
-	void SetInferedStroke(vector<vector<double>> infered_res, int pen_up = 1, int pen_down = 0, int max_len = 15, double mag_rate = 10.0);
+	void SetInferedStroke(vector<vector<double>> infered_res, int pen_up = 1, int pen_down = 0, int max_len = 15, double mag_rate = 1.0);
 	vector<vector<SKPnt_2d>> GetInferedStroke();
 
 	void Clear();

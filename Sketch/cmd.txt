@@ -23,5 +23,9 @@ git rm --cached -r ${directory}
 # 需要将 ${file} 更换为已被Git同步但是需要解除同步的文件
 git rm --cached ${file}
 
+# 端口转发
+ssh -L 8888:127.0.0.1:5000 -p 25953 root@219.223.181.7
+
+
 
 
