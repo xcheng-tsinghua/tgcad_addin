@@ -550,7 +550,7 @@ bool AddinMenu::Test5()
 
 	vector<vector<double>> infered_tensor = SketchRNN::Infer(input_tensor);
 
-	gl_display->SetInferedStroke(infered_tensor);
+	gl_display->SetInferedStrokeSim(infered_tensor);
 	gl_display->GetView()->Update();
 
 	return true;
