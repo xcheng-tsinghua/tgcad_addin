@@ -10,8 +10,7 @@
 #define M_ZERO 1e-6
 #endif
 
-#include<vector>
-
+#include <vector>
 using std::vector;
 
 namespace SKUtils
@@ -19,6 +18,7 @@ namespace SKUtils
 	PROCESS_API void CreateConsole();
 
 	PROCESS_API vector<double> linspace(double start, double end, int sec);  //sec>=3
+
 
 
 }

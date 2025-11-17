@@ -505,24 +505,30 @@ void DrawGL::SetInferedStroke(vector<vector<double>> infered_res, int pen_up, in
 
 void DrawGL::SetInferedStrokeSim(vector<vector<double>> infered_res)
 {
-	m_line_points_infered.clear();
-	for (auto c_vec : infered_res)
-	{
-		m_line_points_infered.push_back(m_last_pnt + SKPnt_2d(c_vec[0], c_vec[1]));
+	//m_line_points_infered.clear();
+	//for (auto c_vec : infered_res)
+	//{
+	//	m_line_points_infered.push_back(m_last_pnt + SKPnt_2d(c_vec[0], c_vec[1]));
 
-	}
+	//}
 
 }
 
-vector<SKPnt_2d> DrawGL::GetInferedStroke()
+vector<vector<SKPnt_2d>> DrawGL::GetInferedStroke()
 {
 	return m_line_points_infered;
+}
+
+void DrawGL::InferCompletion()
+{
+	m_line_points_infered = mp_complete->Infer(m_line_points_all);
 }
 
 void DrawGL::Clear()
 {
 	m_line_points_all.clear();
 	m_line_points_current.clear();
+	m_line_points_infered.clear();
 
 }
 
@@ -592,16 +598,16 @@ HRESULT DrawGL::XhDCDisplayEvents::raw_EndhDCMainDisplay(long hDC, double* Model
 			DrawGL::DrawStroke(c_hstk, pDC);
 		}
 
-		vector<SKPnt_2d> infered_stroke = gl_draw->GetInferedStroke();
-
-		cout << "获取的推导出的笔划点数：" << infered_stroke.size() << endl;
-		DrawGL::DrawStroke(infered_stroke, pDC, 5, RGB(0, 0, 255));
-
 		//vector<vector<SKPnt_2d>> infered_stroke = gl_draw->GetInferedStroke();
-		//for (auto c_hstk : infered_stroke)
-		//{
-		//	DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
-		//}
+
+		//cout << "获取的推导出的笔划点数：" << infered_stroke.size() << endl;
+		//DrawGL::DrawStroke(infered_stroke, pDC, 5, RGB(0, 0, 255));
+
+		vector<vector<SKPnt_2d>> infered_stroke = gl_draw->GetInferedStroke();
+		for (auto c_hstk : infered_stroke)
+		{
+			DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
+		}
 
 	}
 	return S_OK;

@@ -25,6 +25,7 @@ void SKUtils::CreateConsole()
 
 }
 
+
 vector<double> SKUtils::linspace(double start, double end, int sec)
 {
     vector<double>tmp;
@@ -38,6 +39,12 @@ vector<double> SKUtils::linspace(double start, double end, int sec)
     return tmp;
 
 }
+
+
+
+
+
+
 
 
 

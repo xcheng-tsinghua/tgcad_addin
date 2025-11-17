@@ -5,9 +5,10 @@
 #include <tlhelp32.h>
 #include "CmdUser.h"
 #include "SEUtils.h"
+#include <chrono>
+//#include "SketchRNN.h"
 
-#include "SketchRNN.h"
-
+using namespace std::chrono;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -528,6 +529,7 @@ bool AddinMenu::Test4()
 {
 	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
 	gl_display->Clear();
+	gl_display->GetView()->Update();
 
 	//MessageBox(NULL, TEXT("按钮4 !"), TEXT("错误！"), MB_OK | MB_YESNO);
 	return true;
@@ -546,11 +548,28 @@ bool AddinMenu::Test5()
 
 	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
 
-	vector<vector<double>> input_tensor = gl_display->ExportSketchJson();
+	//vector<vector<double>> input_tensor = gl_display->ExportSketchJson();
 
-	vector<vector<double>> infered_tensor = SketchRNN::Infer(input_tensor);
+	//vector<vector<double>> infered_tensor = SketchRNN::Infer(input_tensor);
 
-	gl_display->SetInferedStrokeSim(infered_tensor);
+	//gl_display->SetInferedStrokeSim(infered_tensor);
+
+	// 记录开始时间
+	auto start = high_resolution_clock::now();
+
+	gl_display->InferCompletion();
+
+	// 记录结束时间
+	auto end = high_resolution_clock::now();
+
+	// 计算时间
+	double duration_s = duration<double>(end - start).count();
+
+	// 显示时间
+	CString inference_time;
+	inference_time.Format(_T("程序运行时间：%f 秒"), duration_s);
+	SEUtils::MesgBox(inference_time);
+
 	gl_display->GetView()->Update();
 
 	return true;
@@ -1648,7 +1667,7 @@ void AddinMenu::CreateHoles(SolidEdgePart::PartDocumentPtr partDocument)
 
 bool AddinMenu::ActiveMouse()
 {
-	MessageBox(NULL, TEXT("手绘工具激活 !"), TEXT("错误！"), MB_OK | MB_YESNO);
+	MessageBox(NULL, TEXT("手绘工具激活 !"), TEXT("信息！"), MB_OK | MB_YESNO);
 
 	// 激活工具
 	SEAddin* pAddin = CSampleAddinApp::GetSEApp()->GetSEAddin();

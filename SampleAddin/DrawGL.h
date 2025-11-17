@@ -8,7 +8,7 @@
 #include <vector>
 #include "../Sketch/SKPnt_2d.h"
 #include <string>
-
+#include "SketchCompletion.h"
 
 using namespace std;
 
@@ -90,7 +90,8 @@ public:
 
 	void SetInferedStroke(vector<vector<double>> infered_res, int pen_up = 1, int pen_down = 0, int max_len = 15, double mag_rate = 1.0);
 	void SetInferedStrokeSim(vector<vector<double>> infered_res);
-	vector<SKPnt_2d> GetInferedStroke();
+	vector<vector<SKPnt_2d>> GetInferedStroke();
+	void InferCompletion();
 
 	void Clear();
 	ViewPtr GetView();
@@ -107,11 +108,12 @@ private:
 
 	vector<vector<SKPnt_2d>> m_line_points_all;  // 全部笔划
 	vector<SKPnt_2d> m_line_points_current;  // 当前绘制的笔划
-	vector<SKPnt_2d> m_line_points_infered;  // 模型预测出的笔划
+	vector<vector<SKPnt_2d>> m_line_points_infered;  // 模型预测出的笔划
 
 	static void DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width=5, COLORREF color= RGB(255, 0, 0));
 
 	SKPnt_2d m_last_pnt = SKPnt_2d(0, 0);
+	SketchCompletion* mp_complete = new SketchCompletion();
 
 	/////////////////////////////////////////////////////////
 protected:

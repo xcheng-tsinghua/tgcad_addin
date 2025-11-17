@@ -140,6 +140,11 @@ namespace SEUtils
 
 	}
 
+	void MesgBox(CString _mesg)
+	{
+		MessageBox(NULL, _mesg, TEXT("information"), MB_OK | MB_YESNO);
+	}
+
 	SKPnt_2d ScreenToRef(double fpCursorX, double fpCursorY, WindowPtr wnd)
 	{
 		// 先将鼠标坐标转化为模型三维坐标系坐标

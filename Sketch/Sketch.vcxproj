@@ -135,12 +135,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SketchCompletion.cpp" />
     <ClCompile Include="SKPnt_2d.cpp" />
     <ClCompile Include="SKPnt.cpp" />
     <ClCompile Include="SketchRNN.cpp" />
     <ClCompile Include="SKUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SketchCompletion.h" />
     <ClInclude Include="SKPnt_2d.h" />
     <ClInclude Include="SKPnt.h" />
     <ClInclude Include="SketchRNN.h" />

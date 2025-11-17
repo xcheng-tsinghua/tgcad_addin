@@ -60,6 +60,7 @@ namespace SEUtils
 
 	// ÏÔÊ¾ÏûÏ¢
 	void MesgBox(const char* _mesg);
+	void MesgBox(CString _mesg);
 
 
 
