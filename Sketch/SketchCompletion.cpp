@@ -74,6 +74,7 @@ vector<vector<SKPnt_2d>> SketchCompletion::Infer(vector<vector<SKPnt_2d>> partia
 
     // ∂¡»°≤È—ØÕº
     query = preprocess(query);
+    // 
 
     double best_score = -1.0;
     int best_idx = -1;
