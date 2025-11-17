@@ -526,10 +526,14 @@ void DrawGL::InferCompletion()
 
 void DrawGL::Clear()
 {
+	if (m_line_points_all.size() == 0)
+	{
+		m_line_points_infered.clear();
+	}
+
 	m_line_points_all.clear();
 	m_line_points_current.clear();
-	m_line_points_infered.clear();
-
+	
 }
 
 ViewPtr DrawGL::GetView()

@@ -23,11 +23,14 @@ public:
 	~SketchCompletion();
 
 	vector<vector<SKPnt_2d>> Infer(vector<vector<SKPnt_2d>> partial_sketch);
+	vector<vector<SKPnt_2d>> Infer2(vector<vector<SKPnt_2d>> partial_sketch);
+
 
 
 private:
 	vector<vector<vector<SKPnt_2d>>> m_dataset_point;
 	cv::Mat m_dataset_feature;
+	vector<cv::Mat> m_dataset_imgs;
 
 	vector<vector<SKPnt_2d>> transformSketch(const vector<vector<SKPnt_2d>>& full, const vector<vector<SKPnt_2d>>& user);
 
@@ -43,6 +46,9 @@ private:
 
 	cv::Rect2f getBoundingBox(const vector<vector<SKPnt_2d>>& sketch);
 
+	double fastSSIM(const Mat& img1, const Mat& img2);
+
+	Mat preprocess(const Mat& img);
 
 };
 

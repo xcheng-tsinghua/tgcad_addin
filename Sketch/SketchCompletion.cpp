@@ -25,8 +25,15 @@ SketchCompletion::SketchCompletion(const string& folder_root)
     for (auto& sk : m_dataset_point)
     {
         Mat img = renderSketch(sk);
-        Mat feat = extractFeature(img);
-        m_dataset_feature.push_back(feat);   // N x 1024
+        //Mat feat = extractFeature(img);
+        //m_dataset_feature.push_back(feat);   // N x 1024
+        //cv::imwrite("C:\\Users\\ChengXi\\Desktop\\cstnet2\\output.png", img);
+
+        img = preprocess(img);
+        m_dataset_imgs.push_back(img);
+
+        
+
     }
 
     //SKUtils::CreateConsole();
@@ -40,7 +47,7 @@ SketchCompletion::~SketchCompletion()
 }
 
 
-vector<vector<SKPnt_2d>> SketchCompletion::Infer(vector<vector<SKPnt_2d>> partial_sketch)
+vector<vector<SKPnt_2d>> SketchCompletion::Infer2(vector<vector<SKPnt_2d>> partial_sketch)
 {
     // 用户草图 → 像素图 → 特征
     Mat userImg = renderSketch(partial_sketch);
@@ -51,6 +58,43 @@ vector<vector<SKPnt_2d>> SketchCompletion::Infer(vector<vector<SKPnt_2d>> partia
 
     // 找到对应的草图
     vector<vector<SKPnt_2d>> searched_sketch = m_dataset_point[bestIdx];
+
+    // 进行平移，缩放以对齐草图
+    vector<vector<SKPnt_2d>> transed_sketch = transformSketch(searched_sketch, partial_sketch);
+
+    return transed_sketch;
+
+}
+
+
+vector<vector<SKPnt_2d>> SketchCompletion::Infer(vector<vector<SKPnt_2d>> partial_sketch)
+{
+    // 用户草图 → 像素图 → 特征
+    Mat query = renderSketch(partial_sketch);
+
+    // 读取查询图
+    query = preprocess(query);
+
+    double best_score = -1.0;
+    int best_idx = -1;
+
+    vector<double> all_scores;
+
+    // 遍历数据集
+    int dataset_size = m_dataset_imgs.size();
+    for (int i = 0; i < dataset_size; i++) {
+
+        double ssim = fastSSIM(query, m_dataset_imgs[i]);
+        all_scores.push_back(ssim);
+
+        if (ssim > best_score) {
+            best_score = ssim;
+            best_idx = i;
+        }
+    }
+
+    // 找到对应的草图
+    vector<vector<SKPnt_2d>> searched_sketch = m_dataset_point[best_idx];
 
     // 进行平移，缩放以对齐草图
     vector<vector<SKPnt_2d>> transed_sketch = transformSketch(searched_sketch, partial_sketch);
@@ -145,14 +189,42 @@ vector<vector<SKPnt_2d>> SketchCompletion::loadSketchFromTxt(const string& path)
 Mat SketchCompletion::renderSketch(const vector<vector<SKPnt_2d>>& strokes, int imgSize, int thickness)
 /************* 1. 绘制笔划到图像（bitmap） *****************/
 {
+    //Mat canvas(imgSize, imgSize, CV_8UC1, cv::Scalar(0));
+
+    //for (const auto& stroke : strokes)
+    //{
+    //    for (size_t i = 1; i < stroke.size(); i++)
+    //    {
+    //        Point p1(stroke[i - 1].X(), stroke[i - 1].Y());
+    //        Point p2(stroke[i].X(), stroke[i].Y());
+    //        line(canvas, p1, p2, cv::Scalar(255), thickness, cv::LINE_AA);
+    //    }
+    //}
+
+    //return canvas;
+
     Mat canvas(imgSize, imgSize, CV_8UC1, cv::Scalar(0));
 
-    for (const auto& stroke : strokes)
-    {
-        for (size_t i = 1; i < stroke.size(); i++)
-        {
-            Point p1(stroke[i - 1].X(), stroke[i - 1].Y());
-            Point p2(stroke[i].X(), stroke[i].Y());
+    // 1. 找 min/max
+    double minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
+    for (auto& stroke : strokes)
+        for (auto& p : stroke) {
+            minX = std::min(minX, p.X());
+            minY = std::min(minY, p.Y());
+            maxX = std::max(maxX, p.X());
+            maxY = std::max(maxY, p.Y());
+        }
+
+    double scale = imgSize / std::max(maxX - minX, maxY - minY + 1e-6);
+
+    // 2. 画到画布
+    for (auto& stroke : strokes) {
+        for (size_t i = 1; i < stroke.size(); i++) {
+            Point p1((stroke[i - 1].X() - minX) * scale,
+                (stroke[i - 1].Y() - minY) * scale);
+            Point p2((stroke[i].X() - minX) * scale,
+                (stroke[i].Y() - minY) * scale);
+
             line(canvas, p1, p2, cv::Scalar(255), thickness, cv::LINE_AA);
         }
     }
@@ -204,3 +276,57 @@ cv::Rect2f SketchCompletion::getBoundingBox(const vector<vector<SKPnt_2d>>& sket
 
     return cv::Rect2f(minx, miny, maxx - minx, maxy - miny);
 }
+
+double SketchCompletion::fastSSIM(const Mat& img1, const Mat& img2)
+{
+    // 需要 float 类型
+    Mat I1, I2;
+    img1.convertTo(I1, CV_32F);
+    img2.convertTo(I2, CV_32F);
+
+    // 均值
+    Mat mu1, mu2;
+    GaussianBlur(I1, mu1, cv::Size(11, 11), 1.5);
+    GaussianBlur(I2, mu2, cv::Size(11, 11), 1.5);
+
+    // 方差
+    Mat mu1_2 = mu1.mul(mu1);
+    Mat mu2_2 = mu2.mul(mu2);
+    Mat mu1_mu2 = mu1.mul(mu2);
+
+    Mat sigma1_2, sigma2_2, sigma12;
+    GaussianBlur(I1.mul(I1), sigma1_2, cv::Size(11, 11), 1.5);
+    sigma1_2 -= mu1_2;
+
+    GaussianBlur(I2.mul(I2), sigma2_2, cv::Size(11, 11), 1.5);
+    sigma2_2 -= mu2_2;
+
+    GaussianBlur(I1.mul(I2), sigma12, cv::Size(11, 11), 1.5);
+    sigma12 -= mu1_mu2;
+
+    const double C1 = 6.5025, C2 = 58.5225;
+
+    Mat t1 = 2 * mu1_mu2 + C1;
+    Mat t2 = 2 * sigma12 + C2;
+    Mat t3 = t1.mul(t2);
+
+    Mat t4 = mu1_2 + mu2_2 + C1;
+    Mat t5 = sigma1_2 + sigma2_2 + C2;
+    Mat t6 = t4.mul(t5);
+
+    Mat ssim_map;
+    divide(t3, t6, ssim_map);
+
+    cv::Scalar mssim = mean(ssim_map);
+    return mssim[0];  // 单通道
+
+}
+
+
+Mat SketchCompletion::preprocess(const Mat& img) {
+    Mat small;
+    // 你的草图已经是 CV_8UC1，不需要 cvtColor
+    resize(img, small, cv::Size(64, 64));
+    return small;
+}
+
