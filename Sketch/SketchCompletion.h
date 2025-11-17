@@ -19,7 +19,7 @@ using cv::Mat;
 class PROCESS_API SketchCompletion
 {
 public:
-	SketchCompletion(const std::string& folder_root = "C:\\Users\\ChengXi\\Desktop\\sketchrnn_proj_txt");
+	SketchCompletion(const std::string& folder_root = "..\\..\\sketchrnn_proj_txt");
 	~SketchCompletion();
 
 	vector<vector<SKPnt_2d>> Infer(vector<vector<SKPnt_2d>> partial_sketch);
