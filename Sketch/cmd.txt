@@ -27,5 +27,5 @@ git rm --cached ${file}
 ssh -L 8888:127.0.0.1:5000 -p 25953 root@219.223.181.7
 
 
-
+git branch
 

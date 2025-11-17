@@ -462,59 +462,59 @@ vector<vector<double>> DrawGL::ExportSketchJson(int pen_up, int pen_down)
 	return sketch_json;
 }
 
-void DrawGL::SetInferedStroke(vector<vector<double>> infered_res, int pen_up, int pen_down, int max_len, double mag_rate)
-{
+//void DrawGL::SetInferedStroke(vector<vector<double>> infered_res, int pen_up, int pen_down, int max_len, double mag_rate)
+//{
+//
+//	//m_line_points_infered.clear();
+//
+//	//bool is_next_new_stroke = false;
+//	//vector<SKPnt_2d> c_stroke;
+//
+//	//if (infered_res.size() > max_len) infered_res.resize(max_len);
+//
+//	//for (auto c_res :infered_res)
+//	//{
+//	//	if (abs(c_res[2] - pen_up) <= M_ZERO)
+//	//	{
+//	//		is_next_new_stroke = true;
+//	//	}
+//	//	else 
+//	//	{
+//	//		is_next_new_stroke = false;
+//	//	}
+//
+//	//	c_stroke.push_back(m_last_pnt + mag_rate * SKPnt_2d(c_res[0], c_res[1]));
+//	//	// 下一个点是另一个笔划，加入当前点后开启新笔划
+//	//	if (is_next_new_stroke)
+//	//	{
+//	//		m_line_points_infered.push_back(c_stroke);
+//	//		c_stroke.clear();
+//
+//	//	}
+//
+//	//	bool is_last = (&c_res == &infered_res.back());
+//	//	if (is_last && !is_next_new_stroke)
+//	//	{
+//	//		m_line_points_infered.push_back(c_stroke);
+//	//		c_stroke.clear();
+//	//	}
+//
+//	//}
+//
+//}
 
-	//m_line_points_infered.clear();
+//void DrawGL::SetInferedStrokeSim(vector<vector<double>> infered_res)
+//{
+//	m_line_points_infered.clear();
+//	for (auto c_vec : infered_res)
+//	{
+//		m_line_points_infered.push_back(m_last_pnt + SKPnt_2d(c_vec[0], c_vec[1]));
+//
+//	}
+//
+//}
 
-	//bool is_next_new_stroke = false;
-	//vector<SKPnt_2d> c_stroke;
-
-	//if (infered_res.size() > max_len) infered_res.resize(max_len);
-
-	//for (auto c_res :infered_res)
-	//{
-	//	if (abs(c_res[2] - pen_up) <= M_ZERO)
-	//	{
-	//		is_next_new_stroke = true;
-	//	}
-	//	else 
-	//	{
-	//		is_next_new_stroke = false;
-	//	}
-
-	//	c_stroke.push_back(m_last_pnt + mag_rate * SKPnt_2d(c_res[0], c_res[1]));
-	//	// 下一个点是另一个笔划，加入当前点后开启新笔划
-	//	if (is_next_new_stroke)
-	//	{
-	//		m_line_points_infered.push_back(c_stroke);
-	//		c_stroke.clear();
-
-	//	}
-
-	//	bool is_last = (&c_res == &infered_res.back());
-	//	if (is_last && !is_next_new_stroke)
-	//	{
-	//		m_line_points_infered.push_back(c_stroke);
-	//		c_stroke.clear();
-	//	}
-
-	//}
-
-}
-
-void DrawGL::SetInferedStrokeSim(vector<vector<double>> infered_res)
-{
-	m_line_points_infered.clear();
-	for (auto c_vec : infered_res)
-	{
-		m_line_points_infered.push_back(m_last_pnt + SKPnt_2d(c_vec[0], c_vec[1]));
-
-	}
-
-}
-
-vector<SKPnt_2d> DrawGL::GetInferedStroke()
+vector<vector<SKPnt_2d>> DrawGL::GetInferedStroke()
 {
 	return m_line_points_infered;
 }
@@ -529,6 +529,12 @@ void DrawGL::Clear()
 ViewPtr DrawGL::GetView()
 {
 	return m_pView;
+}
+
+void DrawGL::ActivateComplete()
+{
+	m_line_points_infered = mp_complete->Infer(m_line_points_all);
+	
 }
 
 #pragma endregion
@@ -592,16 +598,16 @@ HRESULT DrawGL::XhDCDisplayEvents::raw_EndhDCMainDisplay(long hDC, double* Model
 			DrawGL::DrawStroke(c_hstk, pDC);
 		}
 
-		vector<SKPnt_2d> infered_stroke = gl_draw->GetInferedStroke();
+		vector<vector<SKPnt_2d>> infered_stroke = gl_draw->GetInferedStroke();
 
-		cout << "获取的推导出的笔划点数：" << infered_stroke.size() << endl;
-		DrawGL::DrawStroke(infered_stroke, pDC, 5, RGB(0, 0, 255));
+		//cout << "获取的推导出的笔划点数：" << infered_stroke.size() << endl;
+		//DrawGL::DrawStroke(infered_stroke, pDC, 5, RGB(0, 0, 255));
 
 		//vector<vector<SKPnt_2d>> infered_stroke = gl_draw->GetInferedStroke();
-		//for (auto c_hstk : infered_stroke)
-		//{
-		//	DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
-		//}
+		for (auto c_hstk : infered_stroke)
+		{
+			DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
+		}
 
 	}
 	return S_OK;

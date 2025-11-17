@@ -546,11 +546,13 @@ bool AddinMenu::Test5()
 
 	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
 
-	vector<vector<double>> input_tensor = gl_display->ExportSketchJson();
+	//vector<vector<double>> input_tensor = gl_display->ExportSketchJson();
 
-	vector<vector<double>> infered_tensor = SketchRNN::Infer(input_tensor);
+	//vector<vector<double>> infered_tensor = SketchRNN::Infer(input_tensor);
 
-	gl_display->SetInferedStrokeSim(infered_tensor);
+	//gl_display->SetInferedStrokeSim(infered_tensor);
+
+	gl_display->ActivateComplete();
 	gl_display->GetView()->Update();
 
 	return true;

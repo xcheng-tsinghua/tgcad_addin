@@ -17,6 +17,12 @@ SKPnt_2d::SKPnt_2d(const double& px, const double& py)
 	m_y = py;
 }
 
+SKPnt_2d::SKPnt_2d(const int& px, const int& py)
+{
+	m_x = px;
+	m_y = py;
+}
+
 SKPnt_2d::SKPnt_2d(SKPnt_2d start, SKPnt_2d end)
 {
 	m_x = end.X() - start.X();

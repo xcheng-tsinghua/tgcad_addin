@@ -15,6 +15,7 @@ class PROCESS_API SKPnt_2d
 public:
 	SKPnt_2d();
 	SKPnt_2d(const double& px, const double& py);
+	SKPnt_2d(const int& px, const int& py);
 	SKPnt_2d(SKPnt_2d start, SKPnt_2d end);  // 创建从start到end的向量
 	~SKPnt_2d();
 

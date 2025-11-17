@@ -30,6 +30,9 @@
     <ClCompile Include="SKPnt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SketchCompletion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SKPnt_2d.h">
@@ -42,6 +45,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SKPnt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="nanoflann.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SketchCompletion.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
