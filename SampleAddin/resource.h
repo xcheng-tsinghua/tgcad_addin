@@ -53,6 +53,10 @@
 #define IDC_LISTCTRL                    151
 #define IDB_FOLDER_L                    152
 #define IDB_FOLDER_S                    153
+#define IDB_BITMAP3                     155
+#define IDB_GUIDE                       158
+#define IDB_PNG5                        159
+#define IDB_RECTIFY                     159
 #define IDS_OK                          1000
 #define IDS_CANCEL                      1001
 #define IDC_TREE1                       1001
@@ -133,12 +137,14 @@
 #define IDS_STRING3060                  3060
 #define IDS_CMD_BN4                     3060
 #define IDS_CMD_BN5                     3061
+#define IDS_CMD_BN6                     3062
+#define IDS_CMD_BN7                     3063
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        155
+#define _APS_NEXT_RESOURCE_VALUE        160
 #define _APS_NEXT_COMMAND_VALUE         40002
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           1076

@@ -8,8 +8,6 @@
 #include <chrono>
 //#include "SketchRNN.h"
 
-using namespace std::chrono;
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -527,17 +525,6 @@ bool AddinMenu::Test3()
 
 bool AddinMenu::Test4()
 {
-	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
-	gl_display->Clear();
-	gl_display->GetView()->Update();
-
-	//MessageBox(NULL, TEXT("按钮4 !"), TEXT("错误！"), MB_OK | MB_YESNO);
-	return true;
-
-}
-
-bool AddinMenu::Test5()
-{
 	//if (gDataShare == NULL)
 	//{
 	//	MessageBox(NULL, TEXT("未初始化!"), TEXT("错误！"), MB_OK | MB_YESNO);
@@ -555,24 +542,41 @@ bool AddinMenu::Test5()
 	//gl_display->SetInferedStrokeSim(infered_tensor);
 
 	// 记录开始时间
-	auto start = high_resolution_clock::now();
+	auto start = std::chrono::high_resolution_clock::now();
 
 	gl_display->InferCompletion();
 
 	// 记录结束时间
-	auto end = high_resolution_clock::now();
+	auto end = std::chrono::high_resolution_clock::now();
 
 	// 计算时间
-	double duration_s = duration<double>(end - start).count();
+	double duration_s = std::chrono::duration<double>(end - start).count();
 
 	// 显示时间
-	CString inference_time;
-	inference_time.Format(_T("程序运行时间：%f 秒"), duration_s);
-	SEUtils::MesgBox(inference_time);
+	std::stringstream inference_time;
+	inference_time << "程序运行时间：" << duration_s << " 秒";
+
+	//CString inference_time;
+	//inference_time.Format(_T("Program running time: %f second"), duration_s);
+	//SEUtils::MesgBox(inference_time);
+
+	SEUtils::ShowStatusBarInfo(inference_time.str().c_str());
 
 	gl_display->GetView()->Update();
 
 	return true;
+
+}
+
+bool AddinMenu::Test5()
+{
+	CMyViewOverlayObj* gl_display = CSampleAddinApp::GetSEApp()->GetSEAddin()->GetMyViewOverlayObj();
+	gl_display->Clear();
+	gl_display->GetView()->Update();
+
+	//MessageBox(NULL, TEXT("按钮4 !"), TEXT("错误！"), MB_OK | MB_YESNO);
+	return true;
+
 }
 
 bool AddinMenu::Test6()

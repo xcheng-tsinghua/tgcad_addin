@@ -32,6 +32,8 @@ private:
 	cv::Mat m_dataset_feature;
 	vector<cv::Mat> m_dataset_imgs;
 
+
+
 	vector<vector<SKPnt_2d>> transformSketch(const vector<vector<SKPnt_2d>>& full, const vector<vector<SKPnt_2d>>& user);
 
 	vector<vector<vector<SKPnt_2d>>> loadDataset(const string& folder);
@@ -49,6 +51,12 @@ private:
 	double fastSSIM(const Mat& img1, const Mat& img2);
 
 	Mat preprocess(const Mat& img);
+
+	double symmetricHausdorff(const Mat& A, const Mat& B);
+
+	double directedHausdorffDT(const Mat& A_, const Mat& B_);
+
+
 
 };
 

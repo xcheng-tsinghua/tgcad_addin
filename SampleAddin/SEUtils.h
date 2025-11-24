@@ -10,7 +10,6 @@ using std::vector;
 
 namespace SEUtils
 {
-
 	////////////////////////////////////////////// 坐标转化 ////
 	// 将当前模型空间下的xyz转化为屏幕像素坐标
 	SKPnt_2d ModelToScreen(const double& model_x, const double& model_y, const double& model_z, WindowPtr wnd);
@@ -50,6 +49,8 @@ namespace SEUtils
 	SKPnt_2d ViewToScreen(const double& view_x, const double& view_y, const double& view_z, WindowPtr wnd);
 
 
+
+
 	////////////////////////////////////////////// 其他功能 ////
 
 	// 将视角平滑转化到目标视角
@@ -61,6 +62,9 @@ namespace SEUtils
 	// 显示消息
 	void MesgBox(const char* _mesg);
 	void MesgBox(CString _mesg);
+
+	// 在状态栏显示消息
+	void ShowStatusBarInfo(_bstr_t const& status);
 
 
 

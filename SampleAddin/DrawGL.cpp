@@ -4,11 +4,12 @@
 #include "SampleAddin.h"
 #include "SEAddin.h"
 #include <fstream>
+#include <gdiplus.h>
 
 #include "SKUtils.h"
 
-
 #pragma region DrawGL
+#pragma comment(lib, "gdiplus.lib")
 
 
 HRESULT DrawGL::SetView(Window* pWindow)
@@ -322,31 +323,60 @@ void DrawGL::DrawOpenGlBoxes(LPGL pGL, float fSize)
 	pGL->glEnd();
 }
 
-void DrawGL::DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width, COLORREF color)
+//void DrawGL::DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width, COLORREF color)
+//{
+//
+//	// 创建一个红色、线宽为 3 的实线画笔
+//	CPen pen(PS_SOLID, line_width, color);
+//
+//	// 选入到 DC 中，并保存旧画笔
+//	CPen* pOldPen = dc->SelectObject(&pen);
+//
+//
+//	int n_points = stroke_pnt.size();
+//	if (n_points > 2)
+//	{
+//		for (int i = 1; i < n_points; i++)
+//		{
+//			SKPnt_2d sec_start = stroke_pnt[i - 1];
+//			SKPnt_2d sec_end = stroke_pnt[i];
+//
+//			dc->MoveTo(sec_start.X(), sec_start.Y());
+//			dc->LineTo(sec_end.X(), sec_end.Y());
+//
+//		}
+//
+//	}
+//
+//}
+
+void DrawGL::DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width, COLORREF color, double alpha)
 {
+	Gdiplus::Graphics graphics(dc->m_hDC);
 
-	// 创建一个红色、线宽为 3 的实线画笔
-	CPen pen(PS_SOLID, line_width, color);
+	// 打开抗锯齿，可选
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
-	// 选入到 DC 中，并保存旧画笔
-	CPen* pOldPen = dc->SelectObject(&pen);
+	// 颜色转换：COLORREF → ARGB
+	BYTE r = GetRValue(color);
+	BYTE g = GetGValue(color);
+	BYTE b = GetBValue(color);
 
+	// 设置透明度（例如 128 = 半透明）
+	BYTE alpha_trans = 255 * alpha;
+
+	Gdiplus::Pen pen(Gdiplus::Color(alpha_trans, r, g, b), (Gdiplus::REAL)line_width);
 
 	int n_points = stroke_pnt.size();
-	if (n_points > 2)
+	if (n_points > 1)
 	{
-		for (int i = 1; i < n_points; i++)
+		for (int i = 1; i < n_points; ++i)
 		{
-			SKPnt_2d sec_start = stroke_pnt[i - 1];
-			SKPnt_2d sec_end = stroke_pnt[i];
-
-			dc->MoveTo(sec_start.X(), sec_start.Y());
-			dc->LineTo(sec_end.X(), sec_end.Y());
-
+			SKPnt_2d s = stroke_pnt[i - 1];
+			SKPnt_2d e = stroke_pnt[i];
+			graphics.DrawLine(&pen, (INT)s.X(), (INT)s.Y(), (INT)e.X(), (INT)e.Y());
 		}
-
 	}
-
 }
 
 HRESULT DrawGL::UnadviseFromEvents()
@@ -407,7 +437,7 @@ void DrawGL::DrawEnd()
 
 void DrawGL::ExportSketchPoints(string save_path, int pen_up, int pen_down)
 {
-	ofstream of(save_path);
+	std::ofstream of(save_path);
 
 	for (auto c_pnt_list : m_line_points_all)
 	{
@@ -417,11 +447,11 @@ void DrawGL::ExportSketchPoints(string save_path, int pen_up, int pen_down)
 
 			if (i == c_pnt_list.size() - 1)
 			{
-				of << c_pnt.X() << ',' << c_pnt.Y() << ',' << pen_up << endl;
+				of << c_pnt.X() << ',' << c_pnt.Y() << ',' << pen_up << std::endl;
 			}
 			else
 			{
-				of << c_pnt.X() << ',' << c_pnt.Y() << ',' << pen_down << endl;
+				of << c_pnt.X() << ',' << c_pnt.Y() << ',' << pen_down << std::endl;
 			}
 
 		}
@@ -460,6 +490,7 @@ vector<vector<double>> DrawGL::ExportSketchJson(int pen_up, int pen_down)
 	}
 
 	return sketch_json;
+
 }
 
 void DrawGL::SetInferedStroke(vector<vector<double>> infered_res, int pen_up, int pen_down, int max_len, double mag_rate)
@@ -610,7 +641,7 @@ HRESULT DrawGL::XhDCDisplayEvents::raw_EndhDCMainDisplay(long hDC, double* Model
 		vector<vector<SKPnt_2d>> infered_stroke = gl_draw->GetInferedStroke();
 		for (auto c_hstk : infered_stroke)
 		{
-			DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(0, 0, 255));
+			DrawGL::DrawStroke(c_hstk, pDC, 5, RGB(150, 150, 150), 0.5);
 		}
 
 	}

@@ -451,12 +451,15 @@ regsvr32 /s /c "$(TargetPath)"
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\bitmap3.bmp" />
     <Image Include="res\DataBaseCheck.png" />
     <Image Include="res\folder_l.bmp" />
     <Image Include="res\folder_s.bmp" />
+    <Image Include="res\guide.png" />
     <Image Include="res\ModelingCheck.png" />
     <Image Include="res\ModelingCheckBar.bmp" />
     <Image Include="res\PackageModelingCheck.png" />
+    <Image Include="res\rectify.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

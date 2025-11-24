@@ -17,7 +17,7 @@ namespace SKUtils
 {
 	PROCESS_API void CreateConsole();
 
-	PROCESS_API vector<double> linspace(double start, double end, int sec);  //sec>=3
+	PROCESS_API vector<double> linspace(double start, double end, int sec);  // sec >= 3
 
 
 

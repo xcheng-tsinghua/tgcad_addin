@@ -30,6 +30,8 @@ SketchCompletion::SketchCompletion(const string& folder_root)
         //cv::imwrite("C:\\Users\\ChengXi\\Desktop\\cstnet2\\output.png", img);
 
         img = preprocess(img);
+
+
         m_dataset_imgs.push_back(img);
 
         
@@ -76,7 +78,7 @@ vector<vector<SKPnt_2d>> SketchCompletion::Infer(vector<vector<SKPnt_2d>> partia
     query = preprocess(query);
     // 
 
-    double best_score = -1.0;
+    double best_score = -999.0;
     int best_idx = -1;
 
     vector<double> all_scores;
@@ -85,13 +87,22 @@ vector<vector<SKPnt_2d>> SketchCompletion::Infer(vector<vector<SKPnt_2d>> partia
     int dataset_size = m_dataset_imgs.size();
     for (int i = 0; i < dataset_size; i++) {
 
-        double ssim = fastSSIM(query, m_dataset_imgs[i]);
-        all_scores.push_back(ssim);
+        //double ssim = fastSSIM(query, m_dataset_imgs[i]);
+        //all_scores.push_back(ssim);
 
-        if (ssim > best_score) {
-            best_score = ssim;
+        //if (ssim > best_score) {
+        //    best_score = ssim;
+        //    best_idx = i;
+        //}
+
+        double ha_diff = -symmetricHausdorff(query, m_dataset_imgs[i]);
+        all_scores.push_back(ha_diff);
+
+        if (ha_diff > best_score) {
+            best_score = ha_diff;
             best_idx = i;
         }
+
     }
 
     // 找到对应的草图
@@ -331,3 +342,63 @@ Mat SketchCompletion::preprocess(const Mat& img) {
     return small;
 }
 
+
+double SketchCompletion::directedHausdorffDT(const Mat& A_, const Mat& B_)
+{
+    // 必须是同一尺寸
+    CV_Assert(A_.size() == B_.size());
+    // Ensure binary CV_8U
+    Mat A, B;
+    if (A_.type() != CV_8U) A_.convertTo(A, CV_8U);
+    else A = A_;
+    if (B_.type() != CV_8U) B_.convertTo(B, CV_8U);
+    else B = B_;
+
+    // 二值化：前景=255 背景=0
+    threshold(A, A, 1, 255, cv::THRESH_BINARY);
+    threshold(B, B, 1, 255, cv::THRESH_BINARY);
+
+    // 如果 A 没有前景点，定义距离为 0（或极大，根据需求）
+    if (countNonZero(A) == 0) {
+        return 0.0; // 没有点，视为完全匹配（可按需改）
+    }
+    // 如果 B 没有前景点，则 A->B 距离可视为图像对角线长度（最坏情况）
+    if (countNonZero(B) == 0) {
+        double dx = A.cols, dy = A.rows;
+        return std::sqrt(dx * dx + dy * dy);
+    }
+
+    // distanceTransform 计算到最近的 0 像素的距离
+    // 所以我们把 B 的前景(255) 变为 0，背景变为 255
+    Mat Binv;
+    bitwise_not(B, Binv); // now foreground in B becomes 0
+
+    Mat dist; // CV_32F
+    distanceTransform(Binv, dist, cv::DIST_L2, 5);
+
+    // 对于 A 的所有前景像素，查 dist 中对应位置的值，求最大（即最远的最近距离）
+    double maxMinDist = 0.0;
+    for (int y = 0; y < A.rows; ++y) {
+        const uchar* aRow = A.ptr<uchar>(y);
+        const float* dRow = dist.ptr<float>(y);
+        for (int x = 0; x < A.cols; ++x) {
+            if (aRow[x]) { // 前景像素
+                double d = dRow[x];
+                if (d > maxMinDist) maxMinDist = d;
+            }
+        }
+    }
+
+    return maxMinDist;
+
+}
+
+
+double SketchCompletion::symmetricHausdorff(const Mat& A, const Mat& B)
+{
+    // 对称 Hausdorff = max(H(A->B), H(B->A))
+    double h1 = directedHausdorffDT(A, B);
+    double h2 = directedHausdorffDT(B, A);
+    return std::max(h1, h2);
+
+}

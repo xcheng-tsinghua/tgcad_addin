@@ -9,6 +9,7 @@
 #include "AddinMenu.h"
 #include <iostream>
 #include <fstream>
+#include "SEUtils.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -224,7 +225,7 @@ HRESULT CmdUser::MouseDown(short sButton, short sShift, double dX, double dY, do
 	}
 	else if (sButton == MK_RBUTTON)
 	{
-		mp_gl_display->ExportSketchPoints("sketchPnts.txt");
+		//mp_gl_display->ExportSketchPoints("sketchPnts.txt");
 	}
 	else
 	{
@@ -244,6 +245,31 @@ HRESULT CmdUser::MouseUp(short sButton, short sShift, double dX, double dY, doub
 		//MessageBox(NULL, TEXT("鼠标左键点击-- !"), TEXT("错误！"), MB_OK | MB_YESNO);
 		m_is_draw = false;
 		mp_gl_display->DrawEnd();
+
+
+		// 记录开始时间
+		auto start = std::chrono::high_resolution_clock::now();
+
+		mp_gl_display->InferCompletion();
+
+		// 记录结束时间
+		auto end = std::chrono::high_resolution_clock::now();
+
+		// 计算时间
+		double duration_s = std::chrono::duration<double>(end - start).count();
+
+		// 显示时间
+		std::stringstream inference_time;
+		inference_time << "程序运行时间：" << duration_s << " 秒";
+
+		//CString inference_time;
+		//inference_time.Format(_T("Program running time: %f second"), duration_s);
+		//SEUtils::MesgBox(inference_time);
+
+		SEUtils::ShowStatusBarInfo(inference_time.str().c_str());
+
+		mp_gl_display->GetView()->Update();
+
 	}
 	else if (sButton == MK_RBUTTON)
 	{

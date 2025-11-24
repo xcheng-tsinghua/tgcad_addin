@@ -133,6 +133,7 @@ namespace SEUtils
 
 	}
 
+
 	void MesgBox(const char* _mesg)
 	{
 		CString ErrorMessage = _mesg;
@@ -140,10 +141,27 @@ namespace SEUtils
 
 	}
 
+
 	void MesgBox(CString _mesg)
 	{
 		MessageBox(NULL, _mesg, TEXT("information"), MB_OK | MB_YESNO);
 	}
+
+
+	void ShowStatusBarInfo(_bstr_t const& status)
+	{
+		try
+		{
+			ApplicationPtr application = CSampleAddinApp::GetSEApp()->GetApplication();
+			application->StatusBar = status;
+		}
+		catch (...)
+		{
+
+		}
+
+	}
+
 
 	SKPnt_2d ScreenToRef(double fpCursorX, double fpCursorY, WindowPtr wnd)
 	{
@@ -159,11 +177,13 @@ namespace SEUtils
 
 	}
 
+
 	SKPnt_2d ScreenToRef(SKPnt_2d screen_pnt, WindowPtr wnd)
 	{
 		return ScreenToRef(screen_pnt.X(), screen_pnt.Y(), wnd);
 
 	}
+
 
 	double ScreenDistToRef(SKPnt_2d screen_pnt1, SKPnt_2d screen_pnt2, WindowPtr wnd)
 	{
@@ -175,10 +195,12 @@ namespace SEUtils
 
 	}
 
+
 	double ScreenDistToRef(const double& scren_dist, WindowPtr wnd)
 	{
 		return ScreenDistToRef(SKPnt_2d(0.0, 0.0), SKPnt_2d(0.0, scren_dist), wnd);
 	}
+
 
 	SKPnt_2d ViewToRef(const double& view_x, const double& view_y, const double& view_z, WindowPtr wnd)
 	{
@@ -194,6 +216,7 @@ namespace SEUtils
 
 	}
 
+
 	SKPnt_2d ViewToScreen(const double& view_x, const double& view_y, const double& view_z, WindowPtr wnd)
 	{
 		// 先将当前视图xyz转化到模型坐标系
@@ -208,6 +231,7 @@ namespace SEUtils
 
 	}
 
+
 	SKPnt_2d ModelToScreen(const double& model_x, const double& model_y, const double& model_z, WindowPtr wnd)
 	{
 		long dc_x = 0, dc_y = 0;
@@ -216,6 +240,7 @@ namespace SEUtils
 		return SKPnt_2d(dc_x, dc_y);
 
 	}
+
 
 	SKPnt_2d ModelToScreen(SKPnt model_pnt, WindowPtr wnd)
 	{

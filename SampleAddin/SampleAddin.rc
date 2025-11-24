@@ -96,6 +96,8 @@ IDB_FOLDER_L            BITMAP                  "res\\folder_l.bmp"
 
 IDB_FOLDER_S            BITMAP                  "res\\folder_s.bmp"
 
+IDB_BITMAP3             BITMAP                  "res\\bitmap3.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -293,6 +295,10 @@ IDB_MODELINGCHECK       PNG                     "res\\ModelingCheck.png"
 
 IDB_PACKAGEMODELINGCHECK PNG                     "res\\PackageModelingCheck.png"
 
+IDB_GUIDE               PNG                     "res\\guide.png"
+
+IDB_RECTIFY             PNG                     "res\\rectify.png"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -406,8 +412,10 @@ BEGIN
     IDS_CMD_BN1             "打开零件\n打开零件\n打开零件"
     IDS_CMD_BN2             "建模命令\n建模命令\n建模命令"
     IDS_CMD_BN3             "草图绘制\n草图绘制\n草图绘制"
-    IDS_CMD_BN4             "清空草图\n清空草图\n清空草图"
-    IDS_CMD_BN5             "草图引导\n草图引导\n草图引导"
+    IDS_CMD_BN4             "草图引导\n草图引导\n草图引导"
+    IDS_CMD_BN5             "清空草图\n清空草图\n清空草图"
+    IDS_CMD_BN6             "草图校正\n草图校正\n草图校正"
+    IDS_CMD_BN7             "手势识别\n手势识别\n手势识别"
 END
 
 STRINGTABLE

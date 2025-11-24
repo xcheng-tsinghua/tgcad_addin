@@ -10,7 +10,7 @@
 #include <string>
 #include "SketchCompletion.h"
 
-using namespace std;
+//using namespace std;
 
 // {CC4DA15C-E266-49E4-9F59-ECD69F29B1B8}
 DEFINE_GUID(CLSID_MyViewOverlay, 0xcc4da15c, 0xe266, 0x49e4, 0x9f, 0x59, 0xec, 0xd6, 0x9f, 0x29, 0xb1, 0xb8);
@@ -110,7 +110,7 @@ private:
 	vector<SKPnt_2d> m_line_points_current;  // 当前绘制的笔划
 	vector<vector<SKPnt_2d>> m_line_points_infered;  // 模型预测出的笔划
 
-	static void DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width=5, COLORREF color= RGB(255, 0, 0));
+	static void DrawStroke(vector<SKPnt_2d> stroke_pnt, CDC* dc, int line_width=5, COLORREF color=RGB(255, 0, 0), double alpha=1);  // alpha = 1: 完全不透明，alpha = 0: 完全透明
 
 	SKPnt_2d m_last_pnt = SKPnt_2d(0, 0);
 	SketchCompletion* mp_complete = new SketchCompletion();
