@@ -5,7 +5,7 @@
 #include "CmdApp.h"
 #include "resource.h"
 #include "CmdUser.h"
-#include "util.h"
+#include "SEUtils.h"
 #include "AddinMenu.h"
 #include <iostream>
 #include <fstream>

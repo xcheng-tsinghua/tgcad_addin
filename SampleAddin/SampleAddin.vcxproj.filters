@@ -36,13 +36,10 @@
     <ClCompile Include="SEAddin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="stdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SampleAddin.cpp">
+    <ClCompile Include="AddinApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CmdApp.cpp">
@@ -131,10 +128,7 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SampleAddin.h">
+    <ClInclude Include="AddinApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CmdApp.h">

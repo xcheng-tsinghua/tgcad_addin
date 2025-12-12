@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DrawGL.h"
 #include <iostream>
-#include "SampleAddin.h"
+#include "AddinApp.h"
 #include "SEAddin.h"
 #include <fstream>
 

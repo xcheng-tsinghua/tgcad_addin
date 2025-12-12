@@ -15,7 +15,7 @@
 
 #include "stdafx.h"
 #include <initguid.h>
-#include "SampleAddin.h"
+#include "AddinApp.h"
 #include "SDK/include/secatids.h"
 
 #include "SEAddin.h"

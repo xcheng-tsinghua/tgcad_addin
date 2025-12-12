@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "SampleAddin.h"
+#include "AddinApp.h"
 
 #include "SEAddin.h"
 #include "SDK/include/secatids.h"

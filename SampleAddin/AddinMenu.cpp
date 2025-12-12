@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "AddinMenu.h"
-#include "SampleAddin.h"
+#include "AddinApp.h"
 #include "SEAddIn.h"
 #include <tlhelp32.h>
 #include "CmdUser.h"

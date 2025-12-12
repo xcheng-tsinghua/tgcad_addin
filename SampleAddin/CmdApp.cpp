@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MouseLocate.h"
-#include "util.h"
+#include "SEUtils.h"
 #include "htmlhelp.h"
 #include "AddinMenu.h"
 #include "Document.h"

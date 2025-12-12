@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MouseLocate.h"
-#include "util.h"
+#include "SEUtils.h"
 #include "Options.h"
 
 

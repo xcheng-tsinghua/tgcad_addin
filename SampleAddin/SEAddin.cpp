@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "SampleAddin.h"
+#include "AddinApp.h"
 #include "AddinMenu.h"
 #include "SEAddin.h"
 #include "SDK/include/secatids.h"
-#include "util.h"
+#include "SEUtils.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
