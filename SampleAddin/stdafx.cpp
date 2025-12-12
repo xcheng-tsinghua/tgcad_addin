@@ -8,5 +8,3 @@
 #include <statreg.h>
 #include <statreg.cpp>
 #endif
-
-// test code
