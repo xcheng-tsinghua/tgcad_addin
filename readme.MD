@@ -4,6 +4,11 @@
 
 https://www.newdimchina.com/product/94.html
 
+其它文件：
+https://drive.google.com/drive/folders/10cBdrYG595dGs1PTdZLMW0Fa9slmk5pB?usp=sharing
+将 dlls 复制到 $(SolutionDir)bin/Debug/ 文件夹内
+将 External 复制到 $(SolutionDir)目录
+
 ## 加载插件
 
 从 $(SolutionDir)bin/Debug/ 文件夹找到 regsvrUn.bat 和 regsvr.bat 文件
