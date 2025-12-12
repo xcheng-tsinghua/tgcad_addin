@@ -36,7 +36,7 @@
     <ClCompile Include="SEAddin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdAfx.cpp">
+    <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AddinApp.cpp">
